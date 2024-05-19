@@ -20,7 +20,7 @@ const HomeRight = () => {
 
             <div className=''>
                 {/* <PopularUserCard/> */}
-                {popularUser.map((item)=><PopularUserCard/>)}
+                {popularUser.map((item)=><PopularUserCard key={item.id}/>)}
             </div>
             </Card>
 

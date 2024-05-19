@@ -19,7 +19,7 @@ const HomePage = () => {
     const jwt=localStorage.getItem("jwt");
     const {auth}=useSelector(store=>store);
 
-    console.log("auth",auth);
+    // console.log("auth",auth);
 
 
     

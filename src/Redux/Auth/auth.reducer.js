@@ -7,6 +7,7 @@ const initialState={
     loading:false,
     user:null
 }
+
 export const authReducer=(state=initialState,action)=>{
 
     switch (action.type) {

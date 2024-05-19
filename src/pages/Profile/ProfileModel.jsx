@@ -36,7 +36,7 @@ export default function ProfileModel({open,handleClose}) {
         lastName:""
     },
     onSubmit:(values,)=>{
-        console.log("values",values)
+        // console.log("values",values)
         dispatch(updateProfileAction(values))
     },
   })

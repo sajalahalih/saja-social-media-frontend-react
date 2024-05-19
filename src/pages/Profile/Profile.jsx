@@ -20,18 +20,29 @@ const reels=[1,1,1,1];
 const savedPost=[1,1,1,1];
 const repost=[1,1,1,1];
 const Profile = () => {
+    const {post}=useSelector(store=>store);
 
     const [open, setOpen] = React.useState(false);
     const handleOpenProfileModel = () => setOpen(true);
     const handleClose = () => setOpen(false);
     
     const {auth}=useSelector(store=>store);
+    console.log("auth in prifile user ",auth.user);
+    console.log("auth in prifile ",auth.user.posts[0]);
     const {id}=useParams();
     const [value, setValue] = React.useState('post');
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
+
+    const filteredPosts = post.posts.filter(item => item.user.id === auth.user.id);
+
+
+     // Check if auth.user is defined before rendering
+     if (!auth.user) {
+        return <div>Loading...</div>; // or some loading spinner
+    }
     return (
 
         <Grid container spacing={5}>
@@ -67,9 +78,9 @@ const Profile = () => {
                         <p>@{auth.user?.userName.toLowerCase()}</p>
                     </div>
                     <div className='flex gap-5 items-center py-3'>
-                        <span>41 posts</span>
-                        <span>35 followers</span>
-                        <span>5 follwings</span>
+                        <span>{filteredPosts.length} posts</span>
+                        <span>{auth.user.followers.length} followers</span>
+                        <span>{auth.user.following.length} follwings</span>
                     </div>
 
                     <div>
@@ -90,12 +101,35 @@ const Profile = () => {
        
        {tabs.map((item)=> (<Tab value={item.value} label={item.name} wrapped />))}
       </Tabs>
-    </Box>
+     </Box>
+     {/*{auth.user.posts && auth.user.posts.length > 0 ? (
+  <div className='space-y-5 w-[70%] my-10'>
+    {auth.user.posts.map((item) => (
+      <div className='border border-salte-100 rounded-md'>
+        <PostCard item={item} />
+      </div>
+    ))}
+  </div>
+) : (
+  <div>No posts available</div>
+)} */}
 
-    <div className='flex justify-center'>
+{/* originalllllllll tahet */}
+    {/* <div className='flex justify-center'>
+        {value==="post"?<div className='space-y-5 w-[70%]
+            my-10'>{auth.user.posts.map((item)=> <div className='border border-salte-100 rounded-md'>
+            <PostCard item={item}/> </div>)} */}
+
+<div className='flex justify-center'>
+        {value==="post"?<div className='space-y-5 w-[70%]
+            my-10'>{filteredPosts.map((item)=> <div className='border border-salte-100 rounded-md'>
+            <PostCard key={item.id} item={item}/> </div>)}
+
+        
+    {/* <div className='flex justify-center'>
         {value==="post"?<div className='space-y-5 w-[70%]
             my-10'>{posts.map((item)=> <div className='border border-salte-100 rounded-md'>
-            <PostCard/> </div>)}
+            <PostCard/> </div>)} */}
 
         
     </div>:value==="reels"?<div className='flex justify-center flex-wrap gap-2 my-10'>

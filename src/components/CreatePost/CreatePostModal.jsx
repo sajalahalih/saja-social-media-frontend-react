@@ -5,7 +5,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import { uplodeToCloudinary } from '../../utils/uplodeToCloudniry';
 import { useDispatch } from 'react-redux';
-import { createPostAction } from '../../Redux/Post/post.action';
+import { createCommentAction, createPostAction } from '../../Redux/Post/post.action';
 
 const style = {
     position: 'absolute' ,
@@ -56,10 +56,12 @@ const CreatePostModal = ({handleClose,open}) => {
             video:""
         },
         onSubmit:(values)=>{
-            console.log("formik values",values)
+            // console.log("formik values",values)
             dispatch(createPostAction(values))
         }
     });
+
+  
     return (
         <Modal //mui
         open={open}

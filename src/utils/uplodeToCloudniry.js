@@ -11,7 +11,7 @@ export const uplodeToCloudinary=async(pics,fileType)=>{
         data.append("upload_preset",uplode_preset);
         data.append("cloud_name",cloud_name);
 
-       // const res=await fetch(`CLOUDINARY_URL=cloudinary://717828926835743:xMU7rBb1DTqXbEVx1-OpFs9YCSU@df7i1wfqo`)
+       // const res=await fetch(`CLOUDINARY_URL=cloudinary://717828926835743:xMU7rBb1DTqXbEVx1-OpFs9YCSU@df7i1wfqo`),
 
        const res=await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/${fileType}/upload`,
         {method:"post",body:data}

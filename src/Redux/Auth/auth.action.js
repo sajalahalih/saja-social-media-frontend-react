@@ -14,10 +14,10 @@ export const loginUserAction=(loginData)=>async(dispatch)=>{
         if(data.accessToken){
             localStorage.setItem("jwt",data.accessToken)
 
-  console.log("login jwttttttttttttttt",data.accessToken)
+//   console.log("login jwttttttttttttttt",data.accessToken)
         }
 
-        console.log("loginnnnnnnnnnn",data)
+        // console.log("loginnnnnnnnnnn",data)
 
         dispatch({type:LOGIN_SUCCESS,payload:data.accessToken})
     }catch(error){
@@ -42,7 +42,7 @@ export const registerUserAction = (registerData) => async (dispatch) => {
 
         }
 
-        console.log("register------------",data);
+        // console.log("register------------",data);
 
         dispatch({type:LOGIN_SUCCESS,payload:data.accessToken});
     }catch(error){
