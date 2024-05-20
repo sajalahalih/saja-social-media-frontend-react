@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ImageIcon from '@mui/icons-material/Image';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import { uplodeToCloudinary } from '../../utils/uplodeToCloudniry';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createCommentAction, createPostAction } from '../../Redux/Post/post.action';
 
 const style = {
@@ -30,6 +30,8 @@ const CreatePostModal = ({handleClose,open}) => {
     const[selectedVideo,setSelectedVideo]=useState();
     const [isLoading,setIsLoading]=useState(false);
     const dispatch=useDispatch();
+    
+    const {auth}=useSelector(store=>store);
 
 
     const handleSelectImage=async(event)=>{
@@ -44,10 +46,10 @@ const CreatePostModal = ({handleClose,open}) => {
     const handleSelectVideo=async(event)=>{
         setIsLoading(true);
         const videoUrl= await uplodeToCloudinary(event.target.files
-            [0],"image")//he left it image
+            [0],"video")//he left it image
         setSelectedVideo(videoUrl);
         setIsLoading(false)
-        formik.setFieldValue("image",videoUrl)//he left it image
+        formik.setFieldValue("video",videoUrl)//he left it image
     }  
     const formik=useFormik({
         initialValues:{
@@ -76,8 +78,8 @@ const CreatePostModal = ({handleClose,open}) => {
 
                         <Avatar/>
                         <div className=''>
-                            <p className='font-bold text-lg'> saja lah </p>
-                            <p className='text-sm'>@saja</p>
+                            <p className='font-bold text-lg'>{auth.user.firstName+" "+auth.user.lastName}</p>
+                            <p className='text-sm'>@{auth.user.userName}</p>
                         </div>
 
                     </div>
@@ -114,10 +116,11 @@ const CreatePostModal = ({handleClose,open}) => {
                         style={{display:"none"}}
                         id='video-input'/>
                         <label htmlFor="video-input">
-                            <IconButton color='primary'>
+                            <IconButton color='primary'  component="span">
                                 <VideocamIcon/>
                             </IconButton>
                         </label>
+
                         <span>Video</span>
                         </div>
                   </div>
@@ -126,7 +129,11 @@ const CreatePostModal = ({handleClose,open}) => {
                     alt="" />
                 </div>}
 
-                <div className='flex w-full justify-end'>
+                {selectedVideo && <div>
+              <video className='h-[10rem]' controls  src={selectedVideo}></video>
+            </div>}
+
+                <div className='flex w-full justify-end mt-3'>
                     <Button variant="contained" type="submit" sx={{borderRadius:"1.5rem"}}>Post</Button>
                     </div>
                 

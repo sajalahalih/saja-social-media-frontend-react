@@ -65,12 +65,43 @@ if (!item || !item.user) {
         alt="Paella dish"
          /> */}
 
-         <img className='w-full max-h-[30rem] object-cover object-top' src={item.image} alt="" />
-         <CardContent>  {/* from mui */}
-        <Typography variant="body2" color="text.secondary">
+        
+        
+         {/* <img className='w-full max-h-[30rem] object-cover object-top' src={item.image} alt="" />
+ <CardContent>  {/* from mui */}
+
+
+        {/* <Typography variant="body2" color="text.secondary">
          {item.caption}
         </Typography>
-      </CardContent>
+
+
+      </CardContent>} */}
+          {item.video ? (
+  <CardMedia
+    className='w-full max-h-[30rem] object-cover object-top'
+    component="video"
+    controls
+    src={item.video}
+    title={item.caption}
+  />
+) : item.image ? (
+  <CardMedia
+    className='w-full max-h-[30rem] object-cover object-top'
+    component="img"
+    height="100"
+    image={item.image}
+    alt="Post image"
+  />
+) : (
+  <CardContent>
+    <Typography variant="body2" color="text.secondary">
+      {item.caption}
+    </Typography>
+  </CardContent>
+)} 
+
+        
      
 
       <CardActions className='flex justify-between' disableSpacing> {/* from mui without the logic*/}
