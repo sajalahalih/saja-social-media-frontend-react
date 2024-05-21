@@ -9,13 +9,16 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useDispatch, useSelector } from 'react-redux';
-import { createCommentAction, likePostAction } from '../../Redux/Post/post.action';
+import { createCommentAction, likeCommentAction, likePostAction } from '../../Redux/Post/post.action';
 import { isLikedByReqUser } from '../../utils/isLikedByReqUser';
+import { isCommentLikedByReqUser } from '../../utils/isCommentLikedByReqUser';
 
 const PostCard = ({item}) => {
   console.log("item postcard user",item)
   const[showComments,setShowComments]=useState(false);
   const dispatch=useDispatch();
+  const { likedComments } = useSelector((state) => state.post);
+
   const handleShowComments=()=>setShowComments(!showComments);
   const {post,auth}=useSelector(store=>store);
   // console.log("post for comment ",post)
@@ -36,6 +39,11 @@ const PostCard = ({item}) => {
 const handleLikePost=()=>{
   dispatch(likePostAction(item.id));
 }
+
+const handleLikeComment = (commentId) => {
+  dispatch(likeCommentAction(commentId));
+};
+
 //console.log("the postCard ",item);
 if (!item || !item.user) {
   return <div>Invalid post data</div>; // Handle undefined user property gracefully
@@ -110,7 +118,8 @@ if (!item || !item.user) {
             {isLikedByReqUser(auth.user.id,item)?<FavoriteIcon/>:<FavoriteBorderIcon/>}
 
           </IconButton>
-          
+
+                   
           <IconButton onClick={handleShowComments}>
             {<ChatBubbleIcon/>}
 
@@ -118,10 +127,7 @@ if (!item || !item.user) {
 
           <IconButton>
             {<ShareIcon/>}
-
-          </IconButton>
-
-          
+          </IconButton>             
 
         </div>
         
@@ -143,26 +149,36 @@ if (!item || !item.user) {
               handleCreateComment(e.target.value)
               console.log("enter pressed -----",e.target.value)
             }
+            
+            
           }} className='w-full outline-none bg-transparent border 
           border-[#3b4054] rounded-full px-5 py-2' type="text"
           placeholder='write your comment...' />
+
 
 
         </div>
 
         <Divider/>
         <div className='mx-3 space-y-2 my-5 text-xs'>
-
-
-           {item.comments?.map((comment)=> <div className='flex items=center space-x-5'>
-              <Avatar sx={{height:"2rem",width:"2rem",fontSize:".8rem"}}>
-                {comment.user.firstName[0]}
-
-              </Avatar>
-              <p>{comment.content}</p>
-
-            </div>)}
-        </div>
+  {item.comments?.map((comment) => (
+    <div className='flex items-center justify-between space-x-5' key={comment.id}>
+      <div className='flex items-center space-x-5'>
+        <Avatar sx={{height:"2rem", width:"2rem", fontSize:".8rem"}}>
+          {comment.user.firstName[0]}
+        </Avatar>
+        <p>{comment.content}</p>
+      </div>
+      <div>
+        <IconButton onClick={() => handleLikeComment(comment.id)}>
+          {isCommentLikedByReqUser(auth.user.id, comment) ? (
+            <FavoriteIcon /> ) : (<FavoriteBorderIcon />)
+            }
+        </IconButton>
+      </div>
+    </div>
+  ))}
+</div>
 
 
       </section>}

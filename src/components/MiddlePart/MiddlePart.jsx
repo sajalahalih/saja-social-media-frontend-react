@@ -9,7 +9,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import PostCard from '../Post/PostCard';
 import CreatePostModal from '../CreatePost/CreatePostModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllPostAction } from '../../Redux/Post/post.action';
+import { getAllPostAction, getLikedCommentsAction } from '../../Redux/Post/post.action';
 import { store } from '../../Redux/store';
 
 
@@ -18,6 +18,7 @@ const story=[11,1,1,1,1]
 const MiddlePart = () => {
     const dispatch=useDispatch();
     const {post}=useSelector(store=>store);
+    // const { likedComments } = post;
 
     // console.log("post storee first ",post);
     // console.log("post storee posts ",post.posts);
@@ -36,6 +37,11 @@ const MiddlePart = () => {
     useEffect(()=>{
         dispatch(getAllPostAction())
     },[post.newComment])
+
+
+    // useEffect(() => {
+    //     dispatch(getLikedCommentsAction());
+    //   }, [dispatch]);
     return (
         <div className='px-20'>
             <section className=' flex  item-center p-5 rounded-b-md'>

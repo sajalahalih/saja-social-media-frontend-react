@@ -1,5 +1,5 @@
 import { api } from "../../config/api"
-import { CREATE_COMMENT_FAILURE, CREATE_COMMENT_REQUEST, CREATE_COMMENT_SUCCESS, CREATE_POST_FAILURE, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_ALL_POST_FAILURE, GET_ALL_POST_REQUEST, GET_ALL_POST_SUCCESS, GET_USERS_POST_FAILURE, GET_USERS_POST_REQUEST, GET_USERS_POST_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS } from "./post.actionType"
+import { CREATE_COMMENT_FAILURE, CREATE_COMMENT_REQUEST, CREATE_COMMENT_SUCCESS, CREATE_POST_FAILURE, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_ALL_POST_FAILURE, GET_ALL_POST_REQUEST, GET_ALL_POST_SUCCESS, GET_LIKED_COMMENTS_FAILURE, GET_LIKED_COMMENTS_REQUEST, GET_LIKED_COMMENTS_SUCCESS, GET_USERS_POST_FAILURE, GET_USERS_POST_REQUEST, GET_USERS_POST_SUCCESS, LIKE_COMMENT_FAILURE, LIKE_COMMENT_REQUEST, LIKE_COMMENT_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS } from "./post.actionType"
 
 export const createPostAction=(postData)=>async(dispatch)=>{
    dispatch({type:CREATE_POST_REQUEST})
@@ -79,3 +79,27 @@ export const getAllPostAction=()=>async(dispatch)=>{
                  
              }
          };
+
+
+         
+export const likeCommentAction = (commentId) => async (dispatch) => {
+    dispatch({ type: LIKE_COMMENT_REQUEST });
+    try {
+        const {data} = await api.put(`/posts/comments/like/${commentId}/user`);
+        dispatch({ type: LIKE_COMMENT_SUCCESS, payload: data });
+    } catch (error) {
+        console.log("likeeeeeeeeeeeeeeeeeee comment /error  ",error)
+        dispatch({ type: LIKE_COMMENT_FAILURE, payload: error.message });
+    }
+};
+
+// export const getLikedCommentsAction = () => async (dispatch) => {
+//     dispatch({ type: GET_LIKED_COMMENTS_REQUEST });
+//     try {
+//       const { data } = await api.get("/posts/comments/liked");
+//       dispatch({ type: GET_LIKED_COMMENTS_SUCCESS, payload: data });
+//     } catch (error) {
+//       console.log("get liked comments error  ", error);
+//       dispatch({ type: GET_LIKED_COMMENTS_FAILURE, payload: error.message });
+//     }
+//   };

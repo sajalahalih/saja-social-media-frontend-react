@@ -7,7 +7,7 @@ import { postReducer } from "./Post/post.reducer";
 
 const rootReducers=combineReducers({
 auth:authReducer,
-post:postReducer
+post:postReducer,
 })
 
 export const store=legacy_createStore(rootReducers,applyMiddleware(thunk));
