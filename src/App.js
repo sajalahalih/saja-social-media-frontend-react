@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import Profile from './pages/Profile/Profile';
 import { getProfileAction } from './Redux/Auth/auth.action';
 import Register from './pages/Authuntecation/Register';
+import Login from './pages/Authuntecation/Loging';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
      {/* <Route path='/home' element={<HomePage/>}/>  */}
      <Route path='/home' element={auth.user?<HomePage/>:<Authentication/>}/>   
      <Route path='/message' element={<Message/>}/>
+     <Route path='/saja' element={<Login/>}/>
     
      <Route path='/profile' element={auth.user?<Profile/>:<Authentication/>}/> 
      <Route path='/login' element={auth.user?<HomePage/>:<Authentication/>}/> 

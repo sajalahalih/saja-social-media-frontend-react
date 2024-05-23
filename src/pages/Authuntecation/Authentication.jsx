@@ -24,8 +24,7 @@ const Authentication=()=>{
                             <Route path='/register' element={<Register/>}></Route>
 
                             </Routes>
-                            {/* <Login/> */}
-                            {/* <Register/> */}
+                            
                         </Card>
 
 

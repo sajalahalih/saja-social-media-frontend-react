@@ -1,5 +1,5 @@
 import { Avatar, Button, CardHeader, IconButton } from '@mui/material';
-import { red } from '@mui/material/colors';
+import { blue, blueGrey, red } from '@mui/material/colors';
 import React from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -9,7 +9,7 @@ const PopularUserCard = () => {
         <div>
              <CardHeader //from mui -card component
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+          <Avatar sx={{ bgcolor: blueGrey[500] }} aria-label="recipe">
             R
           </Avatar>
         }
