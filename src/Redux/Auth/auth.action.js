@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GET_PROFILE_FAILURE, GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, UPDATE_PROFILE_FAILURE, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS } from "./auth.actionType"
+import { GET_PROFILE_FAILURE, GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, SEARCH_USER_REQUEST, SEARCH_USER_FAILURE, SEARCH_USER_SUCCESS, UPDATE_PROFILE_FAILURE, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS } from "./auth.actionType"
 import { API_BASE_URL, api } from "../../config/api"
 import { Api } from "@mui/icons-material"
 
@@ -102,10 +102,11 @@ export const registerUserAction = (registerData) => async (dispatch) => {
 
 
 export const updateProfileAction=(reqData)=>async(dispatch)=>{
+    console.log("updateeee ",reqData);
     
     dispatch({type:UPDATE_PROFILE_REQUEST})
     try{//put insted of post 
-        const { data } = await api.put(`${API_BASE_URL}/users`, //on the backend itt users/{id}
+        const { data } = await api.put(`${API_BASE_URL}/users`, 
         reqData
         ); 
 
@@ -147,5 +148,26 @@ export const getProfileAction=(accessToken)=>async(dispatch)=>{
         console.log("--------------",error)
 
         dispatch({type:GET_PROFILE_FAILURE,payload:error})
+    }
+}
+
+
+
+
+
+export const searchUser=(query)=>async(dispatch)=>{  
+    
+    dispatch({type:SEARCH_USER_REQUEST})
+    try{
+        const { data } = await api.get(`/users/search?query=${query}`)
+               
+
+        console.log("search user------------",data)
+
+        dispatch({type:SEARCH_USER_SUCCESS,payload:data })
+    }catch(error){
+        console.log("search user--------------",error)
+
+        dispatch({type:SEARCH_USER_FAILURE,payload:error})
     }
 }

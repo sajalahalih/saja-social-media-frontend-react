@@ -1,0 +1,10 @@
+.hidwScrollbar::-webkit-scrollbar{
+    width:0px;
+    display: none;
+    height: 0
+  
+  }
+  .hidwScrollbar::-webkit-scrollbar-track{
+    display: none;
+  }
+   

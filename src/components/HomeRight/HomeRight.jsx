@@ -1,7 +1,7 @@
 import React from 'react';
-import SearchUser from '../SearchUser/SearchUser';
 import PopularUserCard from './PopularUserCard';
 import { Card } from '@mui/material';
+import SearchUser from '../SearchUserHome/SearchUserHome';
 
 
 const popularUser=[1,1,1,1,1]
