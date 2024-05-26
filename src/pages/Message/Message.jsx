@@ -1,5 +1,5 @@
 import { Avatar, Backdrop, CircularProgress, Grid, IconButton } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
@@ -14,40 +14,70 @@ import ContactSupportTwoToneIcon from '@mui/icons-material/ContactSupportTwoTone
 import { uplodeToCloudinary } from '../../utils/uplodeToCloudniry';
 import SockJS from 'sockjs-client';
 import Stom from "stompjs";
+import { useNavigate } from 'react-router-dom';
 
 const Message = () => {
     const { auth, message } = useSelector(store => store);
     const dispatch = useDispatch();
+
+    const navigate=useNavigate();
 
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const chatContainerRef=useRef(null);
 
     useEffect(() => {
         dispatch(getAllChats());
     }, [dispatch]);
 
+   
+
+    const [stompClient,setStompClient]=useState(null);
+    useEffect(()=>{
+        const sock = new SockJS("http://localhost:8080/ws");
+        const stomp=Stom.over(sock);
+        setStompClient(stomp);
+
+
+        stomp.connect({},onConnect,onErr)
+    },[])
+    const onConnect=()=>{
+        console.log("websocket connected...")
+    }
+
+    const onErr=(error)=>{
+        console.log("errr...",error)
+    }
+
+    //console.log("currentChat.id",currentChat)
+
     useEffect(() => {
-        if (message.message) {
-            setMessages(prevMessages => [...prevMessages, message.message]);
+        if (stompClient && auth.user && currentChat) {
+            const subscription = stompClient.subscribe(`/user/${currentChat.id}/private`, onMessageReice);
+            console.log("Subscribed to: ", `/user/${currentChat.id}/private`);
+            return () => subscription.unsubscribe();
         }
-    }, [message.message]);
+    }, [stompClient, auth.user, currentChat]);
+    
 
+    const sendMessageToServer=(newMessage)=>{
+        if(stompClient&&newMessage){
+            stompClient.send(`/app/chat/${currentChat?.id.toString()}`,{},JSON.stringify(newMessage))
+        }
+    }
 
+    const onMessageReice=(payload)=>{
 
-    const [stomClient,setStomClient]=useState(null);
-    // useEffect(()=>{
-    //     const sock=new SockJS("/http://localhost:8080/ws")
-    //     const stomp=Stom.over(sock);
-    //     setStomClient(stomp)
-
-
-    //     stomp.connect({},onConneect)
-
-
-    // }[])
+        const recivedMessage=JSON.parse(payload.body);
+        
+        console.log("message recive from websocket",recivedMessage)
+        
+        setMessages(prevMessages => [...prevMessages, recivedMessage]);
+    
+    }
 
     const handleSelectImage = async (e) => {
         setLoading(true);
@@ -62,10 +92,28 @@ const Message = () => {
             content: value||" ",
             image: selectedImage,
         };
-        dispatch(createMessage(newMessage));
-        setInputValue(''); // Clear the input field
+        dispatch(createMessage({newMessage,sendMessageToServer}));
+        setInputValue(''); 
         
     };
+    // useEffect(() => {
+    //     if (message.message) {
+    //         setMessages(prevMessages => [...prevMessages, message.message]);
+    //     }
+    // }, [message.message]);
+
+
+    useEffect(()=>{
+        if(chatContainerRef.current){
+            chatContainerRef.current.scrollTop=chatContainerRef.current.scrollHeight;
+        }
+    },[messages])
+
+   
+
+
+
+
 
     const chatList = Array.isArray(message.chats)
         ? message.chats
@@ -78,7 +126,7 @@ const Message = () => {
                     <div className='flex h-full justify-between space-x-2'>
                         <div className='w-full'>
                             <div className='flex space-x-4 items-center py-5'>
-                                <ArrowBackIcon />
+                                <ArrowBackIcon onClick={()=>navigate("/home")} />
                                 <h1 className='text-xl- font-bold'>Home</h1>
                             </div>
                             <div className='h-[83vh]'>
@@ -118,7 +166,7 @@ const Message = () => {
                                     </IconButton>
                                 </div>
                             </div>
-                            <div className='hideScrollbar overflow-y-scroll h-[82vh] px-3 space-y-5 py-12'>
+                            <div ref={chatContainerRef} className='hideScrollbar overflow-y-scroll h-[82vh] px-3 space-y-5 py-12'>
                                 {Array.isArray(messages) && messages.map((item, index) => (
                                     <ChatMessage key={index} item={item} />
                                 ))}
