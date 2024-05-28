@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Card, Grid, Tab, Tabs } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import PostCard from '../../components/Post/PostCard';
 import UserReesCard from '../../components/Reels/UserReelCard';
@@ -19,6 +19,12 @@ const posts=[1,1,1,1];
 const reels=[1,1,1,1];
 const savedPost=[1,1,1,1];
 const repost=[1,1,1,1];
+
+
+
+
+
+
 const Profile = () => {
     const {post}=useSelector(store=>store);
 
@@ -31,6 +37,14 @@ const Profile = () => {
     console.log("auth in prifile ",auth.user.posts[0]);
     const {id}=useParams();
     const [value, setValue] = React.useState('post');
+    const chatContainerRef=useRef(null);
+
+    useEffect(()=>{
+        if(chatContainerRef.current){
+            chatContainerRef.current.scrollTop=chatContainerRef.current.scrollHeight;
+        }
+    },[])
+
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -45,7 +59,7 @@ const Profile = () => {
     }
     return (
 
-        <Grid container spacing={5}>
+        <Grid ref={chatContainerRef} container spacing={5}>
             <Grid item xs={0} lg={3}>
            
             <div className='sticky top-0'>

@@ -4,13 +4,17 @@ import React from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
-const PopularUserCard = () => {
+const PopularUserCard = (item) => {
+
+
+  const name = item.item.name;
+  const firstLetter = name ? name.charAt(0) : '';
     return (
         <div>
              <CardHeader //from mui -card component
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }} aria-label="recipe">
-            R
+            {firstLetter}
           </Avatar>
         }
         action={
@@ -22,9 +26,9 @@ const PopularUserCard = () => {
         </Button>
 
         }
-        title="Saja lahalih"
-        subheader="@saja"
-      />
+        title={name}
+        subheader={"@"+item.item.username}
+              />
         </div>
     );
 };

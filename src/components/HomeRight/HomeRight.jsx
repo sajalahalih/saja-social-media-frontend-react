@@ -3,6 +3,26 @@ import PopularUserCard from './PopularUserCard';
 import { Card } from '@mui/material';
 import SearchUser from '../SearchUserHome/SearchUserHome';
 
+const obj1={
+    username:'jijijamil',
+    name:"Jiji"
+}
+const obj2={
+    username:'malakibrahim',
+    name:"Malak"
+}
+const obj3={
+    username:'bisoshlomo',
+    name:"Bisan"
+}
+const obj4={
+    username:'sosoesh',
+    name:"Soso"
+}
+const obj5={
+    username:'drayah',
+    name:"DR.Ayah"
+}
 
 const popularUser=[1,1,1,1,1]
 const HomeRight = () => {
@@ -20,7 +40,15 @@ const HomeRight = () => {
 
             <div className=''>
                 {/* <PopularUserCard/> */}
-                {popularUser.map((item)=><PopularUserCard key={item.id}/>)}
+                {/* {popularUser.map((item)=><PopularUserCard key={item.id}/>)} */}
+
+
+                <PopularUserCard item={obj1}/>
+            <PopularUserCard item={obj2}/>
+            <PopularUserCard item={obj3}/>
+            <PopularUserCard item={obj4}/>
+            <PopularUserCard item={obj5}/>
+            
             </div>
             </Card>
 

@@ -1,19 +1,20 @@
 import { Avatar } from '@mui/material';
 import React from 'react';
 
-const StoryCircle = () => {
+const StoryCircle = (item) => {
+    console.log("story",item.item.name)
     return (
         <div>
               <div   className='flex flex-col items-center mr-4 cursor-pointer'
               >
                   <Avatar
                 sx={{width:"5rem", height:"5rem"}}
-                src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsynwv-5qtogtOwJbIjaPFJUmHpzhxgqIAug&s' 
+                src={item.item.image}
                 >
                 
                
                 </Avatar>
-                 <p>..name</p>
+                 <p>{item.item.name}</p>
               </div>  
         </div>
     );

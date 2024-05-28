@@ -3,7 +3,7 @@ import React from 'react';
 const SearchUser = () => {
     return (
         <div>
-            SearchUser
+            {/* SearchUser */}
         </div>
     );
 };

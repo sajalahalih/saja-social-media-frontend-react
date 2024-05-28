@@ -24,6 +24,28 @@ const MiddlePart = () => {
     // console.log("post storee posts ",post.posts);
 
 
+    const obj1={
+        image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsynwv-5qtogtOwJbIjaPFJUmHpzhxgqIAug&s',
+        name:"Jiji"
+    }
+    const obj2={
+        image:'https://cdn.pixabay.com/photo/2015/01/06/16/14/woman-590490_640.jpg',
+        name:"Malak"
+    }
+    const obj3={
+        image:'https://cdn.pixabay.com/photo/2021/09/20/03/24/skeleton-6639547_640.png',
+        name:"Bisan"
+    }
+    const obj4={
+        image:'https://cdn.pixabay.com/photo/2020/10/11/19/51/cat-5646889_640.jpg',
+        name:"Soso"
+    }
+    const obj5={
+        image:'https://cdn.pixabay.com/photo/2024/05/21/15/17/gallop-8778395_640.jpg',
+        name:"Ayah"
+    }
+
+
 
     
     const[OpenCreatePostModel,setOpenCreatePostModel]=useState(false);
@@ -56,8 +78,15 @@ const MiddlePart = () => {
                 </Avatar>
                  <p>New</p>
               </div> 
-              {story.map((item)=>(<StoryCircle/>
-            ))}
+
+              {/* {story.map((item)=>(<StoryCircle/>
+            ))} */}
+            <StoryCircle item={obj1}/>
+            <StoryCircle item={obj2}/>
+            <StoryCircle item={obj3}/>
+            <StoryCircle item={obj4}/>
+            <StoryCircle item={obj5}/>
+            
 
             </section>   
 

@@ -1,5 +1,5 @@
 
-import { GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, SEARCH_USER_SUCCESS, UPDATE_PROFILE_SUCCESS } from "./auth.actionType";
+import { GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, SEARCH_USER_SUCCESS, UPDATE_PROFILE_SUCCESS } from "./auth.actionType";
 
 const initialState={
 
@@ -37,6 +37,14 @@ export const authReducer=(state=initialState,action)=>{
         case LOGIN_FAILURE:
         case REGISTER_FAILURE:
                 return {...state,loading:false,error:action.payload}
+
+        case LOGOUT:
+                return { ...state, jwt: null, user: null, loading: false, error: null };
+
+
+                // case LOGOUT:
+                //     return { ...initialState };
+              
         default:
            return state;
     }

@@ -37,7 +37,7 @@ export const createChat = (chat) => async (dispatch) => {
 export const getAllChats = () => async (dispatch) => {
     dispatch({ type: actionType.GET_ALL_CHATS_REQUEST });
     try {
-        const { data } = await api.get(`/chats/user`);//message was here and as param
+        const { data } = await api.get(`/chats/user`);
         console.log("get all chats", data);
         dispatch({ type: actionType.GET_ALL_CHATS_SUCCESS, payload: data });
     } catch (error) {

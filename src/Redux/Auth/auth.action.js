@@ -171,3 +171,12 @@ export const searchUser=(query)=>async(dispatch)=>{
         dispatch({type:SEARCH_USER_FAILURE,payload:error})
     }
 }
+
+
+// auth.actions.js
+export const LOGOUT = "LOGOUT";
+
+export const logoutUserAction = () => (dispatch) => {
+  localStorage.removeItem("jwt");
+  dispatch({ type: LOGOUT });
+};
