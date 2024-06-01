@@ -97,34 +97,32 @@ export const registerUserAction = (registerData) => async (dispatch) => {
         dispatch({ type: REGISTER_FAILURE, payload: errorMessage }); // Dispatch failure with error message
     }
 };
+// updateProfileAction function
+export const updateProfileAction = (reqData) => async (dispatch) => {
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
 
+    try {
+        const token = localStorage.getItem("jwt");
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        };
 
+        const { data } = await axios.put(`${API_BASE_URL}/users`, reqData, config);
 
-
-export const updateProfileAction=(reqData)=>async(dispatch)=>{
-    console.log("updateeee ",reqData);
-    
-    dispatch({type:UPDATE_PROFILE_REQUEST})
-    try{//put insted of post 
-        const { data } = await api.put(`${API_BASE_URL}/users`, 
-        reqData
-        ); 
-
-        if(data.accessToken){
-            localStorage.setItem("jwt",data.accessToken)
-
+        if (data.accessToken) {
+            // Update local storage token if necessary
+            localStorage.setItem("jwt", data.accessToken);
         }
 
-        console.log("UPDATE PROFILE------------",data)
-
-        dispatch({type:UPDATE_PROFILE_SUCCESS,payload:data.accessToken})
-    }catch(error){
-        console.log("--------------",error)
-
-        dispatch({type:UPDATE_PROFILE_FAILURE,payload:error})
+        dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.accessToken });
+    } catch (error) {
+        console.log("Error updating profile:", error);
+        dispatch({ type: UPDATE_PROFILE_FAILURE, payload: error });
     }
-}
-
+};
 
 
 export const getProfileAction=(accessToken)=>async(dispatch)=>{  

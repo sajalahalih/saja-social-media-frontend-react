@@ -12,6 +12,14 @@ import Login from './pages/Authuntecation/Loging';
 import { ThemeProvider, CssBaseline, Switch, FormControlLabel } from '@mui/material';
 import { darkTheme, lightTheme } from './theam/DarkTheme';
 import PageNotFound from './pages/PageNotFound ';
+import { gapi } from 'gapi-script';
+
+import LoginButton from "./components/oauth2/login";
+import LogoutButton from "./components/oauth2/logout";
+import Profilee from './components/SearchUserHome/Profilee';
+
+  // const clientId="253013366460-phc42gjl56imtidp8uslmqfoh1ljrc73.apps.googleusercontent.com";
+
 
 function App() {
     const dispatch = useDispatch();
@@ -35,8 +43,23 @@ function App() {
         });
     };
 
+
+    // useEffect (() => {
+    //     function start() {
+    //     gapi.client.init({
+    //     clientId: clientId,
+    //     scope: ""
+    //     })
+    //     };
+    //     gapi.load('client: auth2', start);
+    //     });
+       // var accessToken = gapi.auth.getToken().access_token;
+
+    
     return (
         <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+            {/* <LoginButton/>
+            <LogoutButton/> */}
             <CssBaseline />
             <FormControlLabel
                 control={<Switch checked={isDarkMode} onChange={toggleTheme} />}
@@ -48,7 +71,7 @@ function App() {
                 
                 <Route path='/' element={auth.user ? <HomePage /> : <Authentication />} />
                 <Route path='/message' element={<Message />} />
-                <Route path='/saja' element={<Login />} />
+                <Route path='/profile/:id' element={<Profilee />} />
                 <Route path='/profile' element={auth.user ? <Profile /> : <Authentication />} />
                 <Route path='/login' element={auth.user ? <HomePage /> : <Authentication />} />
                 <Route path='/register' element={auth.user ? <HomePage /> : <Register />} />

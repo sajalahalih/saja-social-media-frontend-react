@@ -24,12 +24,12 @@ const HomePage = () => {
 
     
     return (
-        <div className='px-20'>
+        <div className='px-20 '>
             <Grid container spacing={0}>
 
                 <Grid item xs={0} lg={3}>
 
-                    <div className='sticky top-0'>
+                    <div className='sticky top-0 pb-454789584'>
                         <Sidebar/>
 
                     </div>
@@ -50,8 +50,8 @@ const HomePage = () => {
                     </Routes>
 
                 </Grid>
-               {(location.pathname==="/home" ||location.pathname==="/") && <Grid item lg={3} className='relative'>
-                    <div className='sticky top-0 w-full'>
+               {(location.pathname==="/home" ||location.pathname==="/") && <Grid item lg={3}  className='relative'>
+                    <div className='sticky top-0 w-full '>
 
                         <HomeRight/>
 

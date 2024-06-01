@@ -1,11 +1,11 @@
 import { Avatar, Box, Button, Card, Grid, Tab, Tabs } from '@mui/material';
 import React, { useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import PostCard from '../../components/Post/PostCard';
-import UserReesCard from '../../components/Reels/UserReelCard';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import { useLocation, useParams } from 'react-router-dom';
+import PostCard from '../Post/PostCard';
+import UserReesCard from '../Reels/UserReelCard';
+import Sidebar from '../Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
-import ProfileModel from './ProfileModel';
+
 
 
 const tabs=[
@@ -22,16 +22,19 @@ const repost=[1,1,1,1];
 
 
 
-const Profile = () => {
-    const {post}=useSelector(store=>store);
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpenProfileModel = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    
-    const {auth}=useSelector(store=>store);
-    console.log("auth in prifile user ",auth.user);
-    console.log("auth in prifile ",auth.user.posts[0]);
+
+
+const Profilee = (user) => {
+
+    const location = useLocation();
+     user = location.state?.user;
+    console.log("profileeeeeeeeeeeeeee",user.id)
+  
+    const {post}=useSelector(store=>store);
+   
+    console.log(" in prifilee user ",user);
+    //console.log(" in prifilee ",user.posts[0]);
     const {id}=useParams();
     const [value, setValue] = React.useState('post');
     const chatContainerRef=useRef(null);
@@ -46,14 +49,13 @@ const Profile = () => {
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
+   
+    //const post=user.post;
 
-    const filteredPosts = post.posts.filter(item => item.user.id === auth.user.id);
+     const filteredPosts = post.posts.filter(item => item.user.id === user.id);
+ 
 
 
-     // Check if auth.user is defined before rendering
-     if (!auth.user) {
-        return <div>Loading...</div>; // or some loading spinner
-    }
     return (
 
         <Grid ref={chatContainerRef} container spacing={5}>
@@ -78,26 +80,29 @@ const Profile = () => {
                 mt-5 h-[5rem]'>
                     <Avatar className='transform -translate-y-24' 
                     sx={{width:"10rem",height:"10rem"}} src='https://cdn.pixabay.com/photo/2024/04/12/15/46/beautiful-8692180_640.png'/>
-                    {true? (<Button onClick={handleOpenProfileModel}  sx={{borderRadius:"20px"}} variant='outlined'>Edit Profile</Button>):(
+                    {false? (<Button   sx={{borderRadius:"20px"}} variant='outlined'>Edit Profile</Button>):(
                      <Button sx={{borderRadius:"20px"}} variant='outlined'>Follow</Button>)}
                       
                 </div>
                 <div className='p-5'>
                     <div>
                         {/* fname and lname hereeeee */}
-                        <h1 className='py-1 font-bold text-xl'>{auth.user?.firstName +" "+auth.user?.lastName }</h1>
-                        <p>@{auth.user?.userName.toLowerCase()}</p>
+                        <h1 className='py-1 font-bold text-xl'>{user?.firstName +" "+user?.lastName }</h1>
+                       
+                        <p>@{user?.userName.toLowerCase()}</p>
+                      
                     </div>
                     <div className='flex gap-5 items-center py-3'>
                         <span>{filteredPosts.length} posts</span>
-                        <span>{auth.user.followers.length} followers</span>
-                        <span>{auth.user.following.length} follwings</span>
+                      
+                        <span>{user.followers.length} followers</span>
+                      
+                        <span>{user.following.length} follwings</span>
+                       
                     </div>
 
                     <div>
-                        <p>Lorem ipsum 
-                            dolor sit amet consectetur 
-                            adipisicing elit.</p>
+                        <p>leve palestina.</p>
                     </div>
 
                 </div>
@@ -125,16 +130,13 @@ const Profile = () => {
   <div>No posts available</div>
 )} */}
 
-{/* originalllllllll tahet */}
-    {/* <div className='flex justify-center'>
-        {value==="post"?<div className='space-y-5 w-[70%]
-            my-10'>{auth.user.posts.map((item)=> <div className='border border-salte-100 rounded-md'>
-            <PostCard item={item}/> </div>)} */}
+
 
 <div className='flex justify-center'>
         {value==="post"?<div className='space-y-5 w-[70%]
             my-10'>{filteredPosts.map((item)=> <div className='border border-salte-100 rounded-md'>
-            <PostCard key={item.id} item={item}/> </div>)}
+            <PostCard key={item.id} item={item}/> </div>)
+            }
 
         
     {/* <div className='flex justify-center'>
@@ -147,23 +149,17 @@ const Profile = () => {
         {reels.map((item)=> <UserReesCard/>)}
 
 
-     </div>:value==="saved"?<div className='space-y-5 w-[70%] my-10'> 
-        {savedPost.map((item)=> <div className='border border-salte-100 rounded-md'>
-            <PostCard/> </div>)}
-        
-          </div>:(
-          <div>Repost</div>
+     </div>:(
+          <div>posts</div>
           )}
     </div>  
                 </section>
             </div>    
-                 <section>
-                    <ProfileModel  open={open} handleClose={handleClose} />
-                   </section>
+                
         </Card>
         </Grid>
         </Grid>
     );
 };
 
-export default Profile;
+export default Profilee;
