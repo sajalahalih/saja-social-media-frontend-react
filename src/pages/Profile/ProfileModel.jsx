@@ -4,6 +4,10 @@ import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { updateProfileAction } from '../../Redux/Auth/auth.action';
 import CloseIcon from '@mui/icons-material/Close';
+import { uplodeToCloudinary } from '../../utils/uplodeToCloudniry';
+import { useState } from 'react';
+
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 const style = {
   position: 'absolute',
@@ -34,7 +38,16 @@ export default function ProfileModel({ open, handleClose }) {
     },
   });
 
-  
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSelectImage = async (e) => {
+    setLoading(true);
+    const imgUrl = await uplodeToCloudinary(e.target.files[0], "image");
+    setSelectedImage(imgUrl);
+    setLoading(false);
+};
 
   return (
     <div>
@@ -88,6 +101,12 @@ export default function ProfileModel({ open, handleClose }) {
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
               />
+               <div>
+                                        <input type="file" accept='image/*' onChange={handleSelectImage} className='hidden' id='image-input' />
+                                        <label htmlFor="image-input">
+                                            <AddPhotoAlternateIcon />
+                                        </label>
+                                    </div>
             </div>
           </form>
         </Box>
