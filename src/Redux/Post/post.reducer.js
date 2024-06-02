@@ -1,4 +1,4 @@
-import { CREATE_COMMENT_SUCCESS, CREATE_POST_FAILURE, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_ALL_POST_FAILURE, GET_ALL_POST_REQUEST, GET_ALL_POST_SUCCESS, LIKE_COMMENT_FAILURE, LIKE_COMMENT_REQUEST, LIKE_COMMENT_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, UPDATE_COMMENT_SUCCESS } from "./post.actionType";
+import { CREATE_COMMENT_SUCCESS, CREATE_POST_FAILURE, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_ALL_POST_FAILURE, GET_ALL_POST_REQUEST, GET_ALL_POST_SUCCESS, LIKE_COMMENT_FAILURE, LIKE_COMMENT_REQUEST, LIKE_COMMENT_SUCCESS, LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, UPDATE_COMMENT_FAILURE, UPDATE_COMMENT_SUCCESS } from "./post.actionType";
 
 const initialState={
     post:null,
@@ -81,13 +81,21 @@ export const postReducer=(state=initialState, action)=>{
                     ...state,
                     // comments: state.comments.map(comment =>
                     //     comment.id === action.payload.id ? action.payload : comment
-                    // ),
-                    comments: Array.isArray(state.comments) ? 
-                    state.comments.map(item => item.id === action.payload.id ? action.payload : item) : 
-                    [], 
+                    //   ),
+                    // comments: Array.isArray(state.comments) ? 
+                    // state.comments.map(item => item.id === action.payload.id ? action.payload : item) : 
+                    // [], 
+                     newComment:action.payload,
+                    //comments: action.payload.comments ,
                     loading: false,
                     error: null
                 };
+                case UPDATE_COMMENT_FAILURE:
+                    return {
+                      ...state,
+                      loading: false,
+                      error: action.payload,
+                    };
             
             
         case CREATE_POST_FAILURE:

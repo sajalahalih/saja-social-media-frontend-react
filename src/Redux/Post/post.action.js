@@ -131,7 +131,12 @@ export const updateCommentAction = (postId,commentId,reqData) => async (dispatch
             localStorage.setItem("jwt", data.accessToken);
         }
 
-        dispatch({ type: UPDATE_COMMENT_SUCCESS, payload: data.accessToken });
+        // const response = await api.updateComment(postId, commentId, reqData);
+        // const updatedComment = response.data;
+
+        console.log("oay load data",data)
+    
+        dispatch({ type: UPDATE_COMMENT_SUCCESS, payload: data });
     } catch (error) {
         console.log("Error updating profile:", error);
         dispatch({ type: UPDATE_COMMENT_FAILURE, payload: error });

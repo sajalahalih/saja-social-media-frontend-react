@@ -1,12 +1,8 @@
-import * as React from 'react';
-import { Box, Button, Modal, Avatar, IconButton, TextField } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, Button, Modal, IconButton, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
-import { updateProfileAction } from '../../Redux/Auth/auth.action';
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react';
-
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { updateCommentAction } from '../../Redux/Post/post.action';
 
 const style = {
@@ -23,22 +19,21 @@ const style = {
   borderRadius: 3,
 };
 
-export default function CommentModel({ open, handleClose,postId,commentId }) {
+export default function CommentModel({ open, handleClose, postId, commentId, initialContent }) {
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-        content:""
+      content: initialContent || ""
     },
-    onSubmit: (values) => {
-      console.log("values", values);
-      dispatch(updateCommentAction(postId,commentId,values));
+    enableReinitialize: true, // This allows the form to reset with new initial values
+    onSubmit: (values, { setSubmitting }) => {
+      dispatch(updateCommentAction(postId, commentId, values)).then(() => {
+        setSubmitting(false);
+        handleClose();
+      });
     },
   });
-
-
-
-
 
   return (
     <div>
@@ -57,9 +52,8 @@ export default function CommentModel({ open, handleClose,postId,commentId }) {
                 </IconButton>
                 <p>Edit Comment</p>
               </div>
-              <Button type='submit'>Save</Button>
+              <Button type='submit' disabled={formik.isSubmitting}>Save</Button>
             </div>
-          
             <div className='space-y-3'>
               <TextField
                 fullWidth
@@ -69,8 +63,6 @@ export default function CommentModel({ open, handleClose,postId,commentId }) {
                 value={formik.values.content}
                 onChange={formik.handleChange}
               />
-             
-           
             </div>
           </form>
         </Box>
