@@ -95,9 +95,9 @@ const Profilee = (user) => {
                     <div className='flex gap-5 items-center py-3'>
                         <span>{filteredPosts.length} posts</span>
                       
-                        <span>{user.followers.length} followers</span>
+                        <span>0 followers</span>
                       
-                        <span>{user.following.length} follwings</span>
+                        <span>0 follwings</span>
                        
                     </div>
 
@@ -109,14 +109,17 @@ const Profilee = (user) => {
 
                 <section>
                 <Box sx={{ width: '100%',borderBottom:1 ,border:"divider"}}> {/*from mui tabs*/}
-      <Tabs
+      {/* <Tabs
         value={value}
         onChange={handleChange}
         aria-label="wrapped label tabs example"
-      >  
-       
-       {tabs.map((item)=> (<Tab value={item.value} label={item.name} wrapped />))}
-      </Tabs>
+      >   */}
+       {tabs.map((item, index) => (
+  <Tab key={index} value={item.value} label={item.name} wrapped />
+))}
+
+       {/* {tabs.map((item)=> (<Tab value={item.value} label={item.name} wrapped />))}
+      </Tabs> */}
      </Box>
      {/*{auth.user.posts && auth.user.posts.length > 0 ? (
   <div className='space-y-5 w-[70%] my-10'>

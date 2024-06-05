@@ -32,6 +32,7 @@ export const loginUserFailure = (error) => ({
   });
   
   export const loginUserAction = (loginData) => async (dispatch) => {
+    console.log("login data",loginData)
     dispatch({ type: LOGIN_REQUEST });
     try {
         const { data } = await axios.post(`${API_BASE_URL}/auth/signin`, loginData.data);
@@ -40,19 +41,45 @@ export const loginUserFailure = (error) => ({
         }
         dispatch({ type: LOGIN_SUCCESS, payload: data.accessToken });
     } catch (error) {
-        // Check if the error response contains specific error messages
         if (error.response && error.response.data && error.response.data.message) {
             const errorMessage = error.response.data.message;
             if (errorMessage === 'Incorrect username or password') {
-                dispatch(loginUserFailure(errorMessage)); // Dispatch custom error message
+                dispatch(loginUserFailure(errorMessage)); 
             } else {
-                dispatch(loginUserFailure('Incorrect username or password')); // Dispatch generic error message
+                dispatch(loginUserFailure('Incorrect username or password')); 
             }
         } else {
-            dispatch(loginUserFailure('Incorrect username or password')); // Dispatch generic error message
+            dispatch(loginUserFailure('Incorrect username or password')); 
         }
     }
 };
+
+
+// export const loginUserFailure = (error) => ({
+//     type: LOGIN_FAILURE,
+//     payload: error,
+// });
+
+// export const loginUserAction = (loginData) => async (dispatch) => {
+//     dispatch({ type: LOGIN_REQUEST });
+//     try {
+//         const endpoint = loginData.isGoogle ? '/auth/google/signin' : '/auth/signin';
+//         const { data } = await axios.post(`${API_BASE_URL}${endpoint}`, loginData.data);
+//         if (data.accessToken) {
+//             localStorage.setItem("jwt", data.accessToken);
+//         }
+//         dispatch({ type: LOGIN_SUCCESS, payload: data.accessToken });
+//     } catch (error) {
+//         const errorMessage = error.response && error.response.data && error.response.data.message
+//             ? error.response.data.message
+//             : "Incorrect username or password";
+//         dispatch(loginUserFailure(errorMessage));
+//     }
+// };
+
+
+
+
 
 // export const registerUserAction = (registerData) => async (dispatch) => {
     

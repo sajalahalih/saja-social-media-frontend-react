@@ -5,17 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './Redux/store';
-import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom'; // Import BrowserRouter
+import { BrowserRouter } from 'react-router-dom'; // Import BrowserRouter
 
-ReactDOM.render(
+// Import createRoot from react-dom/client
+import { createRoot } from 'react-dom/client';
+
+// Use createRoot from react-dom/client
+const root = createRoot(document.getElementById('root'));
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>{/* <BrowserRouter>  */}
+      <BrowserRouter>
         <App />
-      </Router>
+      </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 reportWebVitals();

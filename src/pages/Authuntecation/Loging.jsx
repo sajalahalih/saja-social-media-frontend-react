@@ -93,9 +93,11 @@ import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { loginUserAction } from '../../Redux/Auth/auth.action';
+import { loginUserAction, registerUserAction } from '../../Redux/Auth/auth.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = () => {
     const [formValue, setFormValue] = useState();
@@ -109,6 +111,22 @@ const Login = () => {
         password: ""
     };
 
+    const handleGoogle = (response) => {
+        console.log(response)
+        console.log(jwtDecode(response.credential))
+        if(response.redirected){
+            document.location=response.url;
+        }
+       const  data={
+        data:{
+            
+            username:jwtDecode(response.credential).email,
+            password:"sesesese1"
+        }
+        }
+        dispatch(loginUserAction(data))
+        // request to back end resopnse jwtDecode(response.credential).email
+    }
     const handleSubmit = (values) => {
         console.log("handle submit", values);
         dispatch(loginUserAction({ data: values }));
@@ -118,31 +136,34 @@ const Login = () => {
         <>
             {error && <div className="text-red-500">{error}</div>}
             <Formik
-    onSubmit={handleSubmit}
-    initialValues={initialValues}>
-    <Form className='space-y-5'>
-        <div> {/* Wrap all form elements within a single div */}
-            <div className='space-y-5'>
-                <div>
-                    <Field as={TextField} name="username" label="Username or Email" type='text' variant="outlined" fullWidth />
-                    <ErrorMessage name='username' component={"div"} className='text-red-500' />
-                </div>
+                onSubmit={handleSubmit}
+                initialValues={initialValues}>
+                <Form className='space-y-5'>
+                    <div> {/* Wrap all form elements within a single div */}
+                        <div className='space-y-5'>
+                            <div>
+                                <Field as={TextField} name="username" label="Username or Email" type='text' variant="outlined" fullWidth />
+                                <ErrorMessage name='username' component={"div"} className='text-red-500' />
+                            </div>
 
-                <div>
-                    <Field as={TextField} name="password" label="Password" type='password' variant="outlined" fullWidth />
-                    <ErrorMessage name='password' component="div" className='text-red-500' />
-                </div>
-            </div>
-            <Button
-                   sx={{ padding: ".8rem 0rem", marginTop: '1rem' }}
-                fullWidth
-                type='submit'
-                variant='contained'
-                color='primary'>LOGIN</Button>
-        </div>
-    </Form>
-</Formik>
-
+                            <div>
+                                <Field as={TextField} name="password" label="Password" type='password' variant="outlined" fullWidth />
+                                <ErrorMessage name='password' component="div" className='text-red-500' />
+                            </div>
+                        </div>
+                        <Button
+                            sx={{ padding: ".8rem 0rem", marginTop: '1rem' }}
+                            fullWidth
+                            type='submit'
+                            variant='contained'
+                            color='primary'>LOGIN</Button>
+                    </div>
+                </Form>
+            </Formik>
+            <GoogleLogin
+                onSuccess={(credentialResopnse) => handleGoogle(credentialResopnse)}
+                onError={() => console.log("google login error")}
+            />
             <div className='flex justify-center gap-2 items-center'>
                 <p>if you don`t have account ?</p>
                 <Button onClick={() => navigate("/register")} sx={{ textTransform: 'none' }}>Register</Button>

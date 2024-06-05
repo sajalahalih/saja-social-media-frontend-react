@@ -12,7 +12,7 @@ const UserChatCard = ({ chat }) => {
         lastMessageContent = lastMessage.content ? lastMessage.content : 'No content';
     }
 
-    console.log("last message content", lastMessageContent);
+   // console.log("last message content", lastMessageContent);
 
     return (
         <Card>
