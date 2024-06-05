@@ -62,8 +62,8 @@ const CreatePostModal = ({ handleClose, open }) => {
             <div className='flex space-x-2 sm:space-x-3 md:space-x-4 items-center'>
               <Avatar sx={{ width: { xs: 30, sm: 40, md: 50 }, height: { xs: 30, sm: 40, md: 50 } }} />
               <div>
-                <p className='font-bold text-sm sm:text-base md:text-lg'>{auth.user.firstName + " " + auth.user.lastName}</p>
-                <p className='text-xs sm:text-sm md:text-base'>@{auth.user.userName}</p>
+                <p className='font-bold text-sm sm:text-base md:text-lg'>{auth.user?.firstName + " " + auth.user?.lastName}</p>
+                <p className='text-xs sm:text-sm md:text-base'>@{auth.user?.userName}</p>
               </div>
             </div>
 
