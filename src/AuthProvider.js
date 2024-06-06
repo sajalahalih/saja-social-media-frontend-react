@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -8,30 +8,36 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("site") || "");
   const navigate = useNavigate();
 
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem("user");
+//     if (storedUser) {
+//       setUser(JSON.parse(storedUser));
+//     }
+//   }, []);
+
   const loginAction = async (data) => {
-    console.log("kkkkkk",data)
     try {
+        console.log("data",data)
       const response = await fetch("http://localhost:8080/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      
       });
       const res = await response.json();
-      console.log("res",res)
-      if (res) {
-        //   console.log("dataaaa",res.data)
-        // console.log("userrrrrrr",res.data.user)
+      console.log("resssssssssss",res)
+      if (res.accessToken) {
+        console.log("token",res.accessToken)
         setUser(res);
-      
-        setToken(res.accessToken);console.log("TOKEENN++++++++++++" + res.accessToken);
+        setToken(res.accessToken);
         localStorage.setItem("site", res.accessToken);
-        navigate("/home"); // Navigate to home after login
-        return;
+        console.log("ffffff")
+      //  localStorage.setItem("auth", JSON.stringify(res));
+        navigate("/home");
+      } else {
+        throw new Error(res.message);
       }
-      throw new Error(res.message);
     } catch (err) {
       console.error(err);
     }
